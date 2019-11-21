@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: marketing
+  cloud:
+    config:
+      name: md-serve
+      #uri: http://localhost:9000https://md-centralized-server-dot-marketingdigital.appspot.com
+      uri: https://md-centralized-server-dot-marketingdigital.appspot.com
+      fail-fast: true
+  profiles:
+    active: local
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
