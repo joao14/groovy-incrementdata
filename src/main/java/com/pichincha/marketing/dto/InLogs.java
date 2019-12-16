@@ -51,7 +51,7 @@ public class InLogs implements Serializable {
     @Basic(optional = false)
     @Column(name = "log_creado")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date logCreado;
+    private Date logCreado; 
 
     public InLogs() {
     }

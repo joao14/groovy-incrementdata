@@ -37,6 +37,9 @@ public class InSoliincr implements Serializable {
     @Basic(optional = false)
     @Column(name = "soin_noapli")
     private Character soinNoapli;
+    @Basic(optional = false)
+    @Column(name = "soin_bacaid")
+    private Integer soinBacaid;
     @Generated(GenerationTime.INSERT)
     @Basic(optional = false)
     @Column(name = "soin_fechhora")
@@ -53,13 +56,14 @@ public class InSoliincr implements Serializable {
         this.soinId = soinId;
     }
 
-    public InSoliincr(Character soinIncracep, String soinMontacep, String soinOtp, Character soinNoapli, InCliente clieId,String soinHashiden) {
+    public InSoliincr(Character soinIncracep, String soinMontacep, String soinOtp, Character soinNoapli, InCliente clieId,String soinHashiden,Integer soinBacaid) {
         this.soinIncracep = soinIncracep;
         this.soinMontacep = soinMontacep;
         this.soinOtp = soinOtp;
         this.soinNoapli = soinNoapli;
         this.clieId=clieId;
         this.soinHashiden=soinHashiden;
+        this.soinBacaid=soinBacaid;
     }
 
     public Integer getSoinId() {
@@ -110,6 +114,14 @@ public class InSoliincr implements Serializable {
         this.soinNoapli = soinNoapli;
     }
 
+    public Integer getSoinBacaid() {
+        return soinBacaid;
+    }
+
+    public void setSoinBacaid(Integer soinBacaid) {
+        this.soinBacaid = soinBacaid;
+    }
+
     public Date getSoinFechhora() {
         return soinFechhora;
     }
@@ -125,6 +137,7 @@ public class InSoliincr implements Serializable {
     public void setClieId(InCliente clieId) {
         this.clieId = clieId;
     }
+
 
     @Override
     public int hashCode() {

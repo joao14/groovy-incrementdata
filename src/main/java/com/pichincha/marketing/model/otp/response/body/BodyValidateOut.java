@@ -12,4 +12,4 @@ import lombok.NoArgsConstructor;
 public class BodyValidateOut {
 
     String reintetos;
-}
+} 

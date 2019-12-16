@@ -23,21 +23,20 @@ public class RecaptchaService implements IRecaptchaService {
     private static final String LOGGER_RESQUEST_FORMAT = "001-REQ";
     private static final String LOGGER_ERROR_FORMAT = "001-ERROR";
     private static final String LOGGER_GOOGLE_REQUEST_FORMAT = "004-REQ";
-    private static final String LOGGER_GOOGLE_RESPONSE_FORMAT = "004-RES";
+    private static final String LOGGER_GOOGLE_RESPONSE_FORMAT = "004-RES";        
     private static final Logger logger = LoggerFactory.getLogger(RecaptchaService.class);
     @Autowired
     private Environment env;
-    private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();   
 
     @Override
-    public Boolean valid(HttpServletRequest requestServlet, HttpServletResponse responseServlet) {
+    public Boolean valid(HttpServletRequest requestServlet, HttpServletResponse responseServlet) {       
         String json = "";
         String log;
         //String guid = requestServlet.getHeader("guid");
         String method = "recaptcha-incremento";
         String token = requestServlet.getHeader("recaptcha-token");
         float score = Float.parseFloat(env.getRequiredProperty("google.recaptcha.minScore"));
-
         //String urls = env.getProperty("google.recaptcha.urlsExcluded");
         //System.out.println(urls);
         log = String.join("-", LOGGER_RESQUEST_FORMAT, method, "{}");
@@ -66,12 +65,14 @@ public class RecaptchaService implements IRecaptchaService {
         try {
             responseServlet.setStatus(HttpStatus.FORBIDDEN.value());
             String url = env.getRequiredProperty("google.recaptcha.url");
-
+            logger.info(url);
+            
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA); 
             MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
             map.add("secret", env.getRequiredProperty("google.recaptcha.secret"));
-            map.add("response", token);
+            map.add("response", token);             
+            
 
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
@@ -82,13 +83,13 @@ public class RecaptchaService implements IRecaptchaService {
             ResponseEntity<RecaptchaResponseEntity> response = restTemplate.postForEntity(url, request, RecaptchaResponseEntity.class);
             json = new ObjectMapper().writeValueAsString(response.getBody());
             log = String.join("-", LOGGER_GOOGLE_REQUEST_FORMAT, method, "{}");
-            logger.debug(log, json);
-
-            if (response.getBody() != null &&
+            logger.debug(log, json);    
+                       
+            if (response.getBody() != null &&  
                     response.getBody().getScore() != null &&
-                    response.getBody().isSuccess() &&
+                    response.getBody().isSuccess() &&  
                     Float.parseFloat(response.getBody().getScore()) >= score
-            ) {
+            ) {            	
                 responseServlet.setStatus(HttpStatus.OK.value());
                 log = String.join("-", LOGGER_RESPONSE_FORMAT, method, "{}");
                 logger.debug(log, true);

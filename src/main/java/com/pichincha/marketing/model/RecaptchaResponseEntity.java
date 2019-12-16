@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RecaptchaResponseEntity {
 
-    String score;
-    boolean success;
+    String score;        
+    boolean success;         
 }

@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GenerarOTP51Response {
 
-    BodyOut bodyOut;
-    ErrorResponse error;
+    BodyOut bodyOut;   
+    ErrorResponse error;  
 }

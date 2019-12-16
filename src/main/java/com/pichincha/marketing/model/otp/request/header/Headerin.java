@@ -1,4 +1,4 @@
-package com.pichincha.marketing.model.otp.request.header;;
+package com.pichincha.marketing.model.otp.request.header;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,8 +16,8 @@ public class Headerin {
 
 	@JsonPropertyOrder("1")
 	@JsonAlias("dispositivo")
-	@JsonProperty("dispositivo")
-	String dispositivo;
+	@JsonProperty("dispositivo") 
+	String dispositivo; 
 
 	@JsonPropertyOrder("2")
 	@JsonAlias("empresa")

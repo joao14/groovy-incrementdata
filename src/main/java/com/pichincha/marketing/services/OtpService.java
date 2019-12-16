@@ -1,15 +1,14 @@
 package com.pichincha.marketing.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.api.client.util.Base64;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.util.Base64;
 import com.pichincha.marketing.model.otp.Request;
-import com.pichincha.marketing.model.otp.Response;
-import com.pichincha.marketing.model.otp.request.Generarotp51;
-import com.pichincha.marketing.controller.LoginController;
 import com.pichincha.marketing.model.otp.RequestValidate;
+import com.pichincha.marketing.model.otp.Response;
 import com.pichincha.marketing.model.otp.ResponseValidate;
 import com.pichincha.marketing.model.otp.request.EvaluarOTP52;
+import com.pichincha.marketing.model.otp.request.Generarotp51;
 import com.pichincha.marketing.model.otp.request.body.*;
 import com.pichincha.marketing.model.otp.request.header.Headerin;
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ public class OtpService {
 
     private static final String LOGGER_RESPONSE_FORMAT = "004-RES";
     private static final String LOGGER_REQUEST_FORMAT = "004-REQ";
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OtpService.class);
     @Autowired
     Environment env;
 
@@ -39,6 +38,7 @@ public class OtpService {
 
     /**
      * Funcion quqe permite obtener la respuesta del cliente junto con el codigo OTP
+     *
      * @param idCliente
      * @return
      */
@@ -49,10 +49,10 @@ public class OtpService {
         String method = "generateOTP";
         String log = String.join("-", LOGGER_REQUEST_FORMAT, method);
         logger.info(log, idCliente);
-        String url = env.getRequiredProperty("core.url");
+        String url = env.getRequiredProperty("core.url");        
         Request request = Request.builder()
                 .GenerarOTP51(Generarotp51.builder()
-                        .headerIn(this.getHeaders(idCliente,"S")) //Significa envio de nuevo OTP
+                        .headerIn(this.getHeaders(idCliente, "S")) //Significa envio de nuevo OTP
                         .bodyIn(BodyIn.builder()
                                 .ordenante(Ordenante.builder()
                                         .identificacion(idCliente)
@@ -77,8 +77,8 @@ public class OtpService {
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
         String authHeader = "Basic " + new String(encodedAuth);
         httpHeaders.add("Authorization", authHeader);
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        try {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);        
+        try {            
             json = mapper.writeValueAsString(request);
             log = String.join("-", LOGGER_REQUEST_FORMAT, method, "{}");
             logger.info(log, json);
@@ -86,7 +86,7 @@ public class OtpService {
             log = String.join("-", LOGGER_RESPONSE_FORMAT, method);
             logger.error(log, e);
         }
-        try {
+        try {           
             response = restTemplate.exchange(
                     url,
                     HttpMethod.POST,
@@ -98,11 +98,10 @@ public class OtpService {
             log = String.join("-", LOGGER_RESPONSE_FORMAT, method, "{}");
             logger.info(log, json);
             if (response.getBody() != null &&
-                    response.getBody().getGenerarOTP51Response() != null &&
-                    response.getBody().getGenerarOTP51Response().getError() != null &&
+                    response.getBody().getGenerarOTP51Response() != null &&  
+                    response.getBody().getGenerarOTP51Response().getError() != null &&  
                     response.getBody().getGenerarOTP51Response().getError().getCodigo() != null &&
-                    response.getBody().getGenerarOTP51Response().getError().getCodigo().equals("0") &&
-
+                    response.getBody().getGenerarOTP51Response().getError().getCodigo().equals("0") &&  
                     response.getBody().getGenerarOTP51Response().getBodyOut() != null &&
                     response.getBody().getGenerarOTP51Response().getBodyOut().getIdTransaccion() != null
             ) {
@@ -120,12 +119,13 @@ public class OtpService {
         } catch (Exception e) {
             log = String.join("-", method);
             logger.error(log, e);
-        }
+        }        
         return response;
     }
 
     /**
      * Funcion que permite validar el otp enviado por el cliente
+     *
      * @param idCliente
      * @param otp
      * @return
@@ -140,7 +140,7 @@ public class OtpService {
         String url = env.getRequiredProperty("core.url");
         RequestValidate request = RequestValidate.builder()
                 .EvaluarOTP52(EvaluarOTP52.builder()
-                        .headerIn(this.getHeaders(idCliente,"G")) //G que significa obtener OTP
+                        .headerIn(this.getHeaders(idCliente, "G")) //G que significa obtener OTP
                         .bodyIn(BodyValiateIn.builder()
                                 .otp(Otp.builder()
                                         .otp(otp)
@@ -185,17 +185,17 @@ public class OtpService {
                     new ParameterizedTypeReference<ResponseValidate>() {
                     }
             );
-            json = mapper.writeValueAsString(response);
-            log = String.join("-", LOGGER_RESPONSE_FORMAT, method, "{}");
-            logger.info(log, json);
+            json = mapper.writeValueAsString(response);  
+            log = String.join("-", LOGGER_RESPONSE_FORMAT, method, "{}");   
+            logger.info(log, json);   
             if (response.getBody() != null &&
-                    response.getBody().getEvaluarOTP52Response()!= null &&
-                    response.getBody().getEvaluarOTP52Response().getError() != null &&
+                    response.getBody().getEvaluarOTP52Response() != null &&
+                    response.getBody().getEvaluarOTP52Response().getError() != null &&   
                     response.getBody().getEvaluarOTP52Response().getError().getCodigo() != null &&
                     response.getBody().getEvaluarOTP52Response().getError().getCodigo().equals("0") &&
 
                     response.getBody().getEvaluarOTP52Response().getBodyOut() != null &&
-                    response.getBody().getEvaluarOTP52Response().getBodyOut().getReintetos() != null
+                    response.getBody().getEvaluarOTP52Response().getBodyOut().getReintetos() != null   
             ) {
                 log = String.join("-", LOGGER_RESPONSE_FORMAT,
                         method, "{}");
@@ -219,18 +219,19 @@ public class OtpService {
 
     /**
      * Funcion que crea el Headerin para el request
+     *
      * @param idCliente
      * @return
      */
-    private Headerin getHeaders(String idCliente,String type) {
-        return Headerin.builder()
-                .dispositivo(env.getRequiredProperty("core.header.dispositivo"))
+    private Headerin getHeaders(String idCliente, String type) {
+        return Headerin.builder()      
+                .dispositivo(env.getRequiredProperty("core.header.dispositivo"))   
                 .empresa(env.getRequiredProperty("core.header.empresa"))
                 .canal(env.getRequiredProperty("core.header.canal"))
-                .medio(env.getRequiredProperty("core.header.medio"))
+                .medio(env.getRequiredProperty("core.header.medio"))   
                 .aplicacion(env.getRequiredProperty("core.header.aplicacion"))
                 .agencia(env.getRequiredProperty("core.header.agencia"))
-                .tipoTransaccion(env.getRequiredProperty(type.equals("S")?"core.header.tipoTransaccion":"core.header.tipoTransaccionValidate"))
+                .tipoTransaccion(env.getRequiredProperty(type.equals("S") ? "core.header.tipoTransaccion" : "core.header.tipoTransaccionValidate"))
                 .geolocalizacion(env.getRequiredProperty("core.header.geolocalizacion"))
                 .usuario(env.getRequiredProperty("core.header.usuario"))
                 .unicidad(env.getRequiredProperty("core.header.unicidad"))
