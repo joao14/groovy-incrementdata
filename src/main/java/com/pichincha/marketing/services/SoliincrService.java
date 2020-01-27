@@ -26,7 +26,7 @@ public class SoliincrService {
     private static final Logger logger = LoggerFactory.getLogger(SoliincrService.class);
     final Date date = new Date();
     UtilResponse responseUtil = new UtilResponse();
-    
+
     final ZoneId id = ZoneId.systemDefault();
     @Autowired
     private ISoliincrDao IsoliincrDao;
@@ -34,6 +34,9 @@ public class SoliincrService {
     private LogsService logsService;
     @Autowired
     private DataStudioService datastudioService;
+    @Autowired
+    private LogsConvService logsConvService;
+
 
     public ResponseEntity<ApiResponse> generateIncrement(InSolicitudRequest inSolicitudRequest, InCliente cliente, String ip) {
         logger.info("Se generara un incremento para el cliente " + cliente.getCliePrimnomb());
@@ -41,7 +44,7 @@ public class SoliincrService {
         try {
             logger.info("El cliente encontrado para el incremento del monto con el hash " + responseUtil.validandoHash(inSolicitudRequest.getHash()) + "\t es \t " + cliente.getCliePrimnomb() + " " + cliente.getCliePrimapel());
             Timestamp timestamp = new Timestamp(new Date().getTime());
-            InSoliincr inSoliincr = new InSoliincr('S', inSolicitudRequest.getMonto(), inSolicitudRequest.getOtp(), '0', cliente, responseUtil.validandoHash(inSolicitudRequest.getHash()),cliente.getBacaId().getBacaId());
+            InSoliincr inSoliincr = new InSoliincr('S', inSolicitudRequest.getMonto(), inSolicitudRequest.getOtp(), '0', cliente, responseUtil.validandoHash(inSolicitudRequest.getHash()), cliente.getBacaId().getBacaId());
             final InSoliincr solicitiud = IsoliincrDao.save(inSoliincr);
             if (solicitiud != null) {
                 logger.info("Se ha realizado el incremento de : " + solicitiud.getSoinMontacep() + "\t para el cliente " + cliente.getClieIdentificacion());
@@ -50,7 +53,6 @@ public class SoliincrService {
                 logsService.saveLogs(cliente, inSolicitudRequest, ip);
                 //Se guarda el incremento en la tabla datastudio
                 datastudioService.saveDatStudio(cliente, inSolicitudRequest);
-                
             } else {
                 logger.warn("No se ha realizado el incremento de : " + solicitiud.getSoinMontacep() + "\t para el cliente " + cliente.getClieIdentificacion());
                 apiResponse = new ApiResponse("Ups ha sucedido algún inconveniente", String.valueOf(HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST, new Date(), null);

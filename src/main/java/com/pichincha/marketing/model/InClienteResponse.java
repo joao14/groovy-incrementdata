@@ -12,12 +12,14 @@ public class InClienteResponse implements Serializable {
     private String email;
     private String telefono;
     private String hashCallmeback;
+    private String conpremio;
+    private String tipoAhorro;
 
 
     public InClienteResponse() {
     }
 
-    public InClienteResponse(String primer_nombre, String monto_actual, String monto_minimo, String monto_maximo, String monto_sugerido, String email,String telefono,String hashCallmeback) {
+    public InClienteResponse(String primer_nombre, String monto_actual, String monto_minimo, String monto_maximo, String monto_sugerido, String email,String telefono,String hashCallmeback,String conpremio, String tipoAhorro) {
         this.primer_nombre = primer_nombre;
         this.monto_actual = monto_actual;
         this.monto_minimo = monto_minimo;
@@ -26,6 +28,8 @@ public class InClienteResponse implements Serializable {
         this.email = email;
         this.telefono=telefono;
         this.hashCallmeback=hashCallmeback;
+        this.conpremio=conpremio;
+        this.tipoAhorro=tipoAhorro;
     }
 
     public String getPrimer_nombre() {
@@ -83,4 +87,20 @@ public class InClienteResponse implements Serializable {
     public String getHashCallmeback() {return hashCallmeback;}
 
     public void setHashCallmeback(String hashCallmeback) {this.hashCallmeback = hashCallmeback;}
+
+    public String getConpremio() {
+        return conpremio;
+    }
+
+    public void setConpremio(String conpremio) {
+        this.conpremio = conpremio;
+    }
+
+    public String getTipoAhorro() {
+        return tipoAhorro;
+    }
+
+    public void setTipoAhorro(String tipoAhorro) {
+        this.tipoAhorro = tipoAhorro;
+    }
 }

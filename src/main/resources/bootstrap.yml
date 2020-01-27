@@ -3,11 +3,11 @@ spring:
     name: marketing
   cloud:
     config:
-      name: md-server-test
-      #name: md-serve
+      #name: md-server-test
+      name: md-serve
       #uri: http://localhost:9000
-      #uri: https://md-centralized-server-dot-marketingdigital.appspot.com
-      uri: https://md-centralized-server-test-dot-marketingdigital.appspot.com/
+      uri: https://md-centralized-server-dot-marketingdigital.appspot.com
+      #uri: https://md-centralized-server-test-dot-marketingdigital.appspot.com/
       fail-fast: true
   profiles:
     active: local

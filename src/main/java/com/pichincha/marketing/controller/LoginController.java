@@ -54,7 +54,7 @@ public class LoginController {
 		ApiResponse apiResponse = null;
 		Integer encontro = 0;
 		try {			
-			InCliente cliente = iclienteDao.findByCliente(hash);			
+			InCliente cliente = iclienteDao.findByCliente(hash);
 			Integer baca_id = cliente.getBacaId().getBacaId();
 			String campana = iBasecampaDao.findByBaseCampana(baca_id).getBacaDescripcion();
 			encontro = iclienteDao.findByClienteIncrementByAccept(hash);

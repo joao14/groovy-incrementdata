@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- *
  * @author gamerino
  */
 @Entity
@@ -84,6 +83,11 @@ public class InCliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "clie_estado")
     private Character clieEstado;
+    @Basic(optional = false)
+    @Column(name = "clie_tipoahorfutu")
+    private String clieTipoahorfutu;
+    @Column(name = "clie_premio")
+    private Character cliePremio;
     @JoinColumn(name = "baca_id", referencedColumnName = "baca_id")
     @ManyToOne
     private InBasecampa bacaId;
@@ -97,13 +101,14 @@ public class InCliente implements Serializable {
         this.clieId = clieId;
     }
 
-    public InCliente(Integer clieId, String clieIdentificacion, String clieIdenenma, String clieCelular, String clieEmail, Character clieEstado) {
+    public InCliente(Integer clieId, String clieIdentificacion, String clieIdenenma, String clieCelular, String clieEmail, Character clieEstado , Character cliePremio) {
         this.clieId = clieId;
         this.clieIdentificacion = clieIdentificacion;
         this.clieIdenenma = clieIdenenma;
         this.clieCelular = clieCelular;
         this.clieEmail = clieEmail;
         this.clieEstado = clieEstado;
+        this.cliePremio=cliePremio;
     }
 
     public Integer getClieId() {
@@ -298,9 +303,13 @@ public class InCliente implements Serializable {
         this.clieMontact = clieMontact;
     }
 
-    public String getClieMontsuge() { return clieMontsuge; }
+    public String getClieMontsuge() {
+        return clieMontsuge;
+    }
 
-    public void setClieMontsuge(String clieMontsuge) { this.clieMontsuge = clieMontsuge;}
+    public void setClieMontsuge(String clieMontsuge) {
+        this.clieMontsuge = clieMontsuge;
+    }
 
     public String getClieMontmaxi() {
         return clieMontmaxi;
@@ -334,12 +343,28 @@ public class InCliente implements Serializable {
         this.clieEstado = clieEstado;
     }
 
+    public Character getCliePremio() {
+        return cliePremio;
+    }
+
+    public void setCliePremio(Character cliePremio) {
+        this.cliePremio = cliePremio;
+    }
+
     public InBasecampa getBacaId() {
         return bacaId;
     }
 
     public void setBacaId(InBasecampa bacaId) {
         this.bacaId = bacaId;
+    }
+
+    public String getClieTipoahorfutu() {
+        return clieTipoahorfutu;
+    }
+
+    public void setClieTipoahorfutu(String clieTipoahorfutu) {
+        this.clieTipoahorfutu = clieTipoahorfutu;
     }
 
     @XmlTransient
