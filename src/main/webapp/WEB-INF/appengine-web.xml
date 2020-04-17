@@ -4,8 +4,6 @@
   <version>1</version>
   <!--Desarrollo-->
   <!--<service>md-incremento-dev-back</service>-->
-  <!-- Test-->
-  <!--<service>md-incremento-test-back</service>-->
   <!--Producción -->
   <service>md-incremento</service>
   <threadsafe>true</threadsafe>
